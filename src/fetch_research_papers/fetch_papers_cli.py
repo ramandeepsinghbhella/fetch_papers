@@ -4,7 +4,7 @@ import pandas as pd
 import argparse
 import sys
 
-from src.fetch_research_papers.api_contants import PUBMED_API_URL, PUBMED_FETCH_URL, MAX_RESULTS
+from api_contants import PUBMED_API_URL, PUBMED_FETCH_URL, MAX_RESULTS
 
 
 def fetch_pubmed_ids(query, max_results=MAX_RESULTS, debug=False):
