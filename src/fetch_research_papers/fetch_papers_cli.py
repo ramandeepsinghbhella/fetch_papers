@@ -113,6 +113,12 @@ def main():
 
     filename = args.file if args.file else f"papers_{args.query.replace(' ', '_')}.csv"
 
+    if not filename.lower().endswith(".csv"):
+        print("⚠️ Invalid file extension! Only `.csv` files are allowed.")
+        filename = input("Enter a valid filename (must end with .csv): ").strip()
+        while not filename.lower().endswith(".csv"):
+            filename = input("❌ Invalid! Please enter a valid `.csv` filename: ").strip()
+
     # Check if the file exists
     if os.path.exists(filename):
         print(f"⚠️ The file '{filename}' already exists.")
