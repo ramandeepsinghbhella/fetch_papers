@@ -3,6 +3,7 @@ import xmltodict
 import pandas as pd
 import argparse
 import sys
+import os
 
 from api_contants import PUBMED_API_URL, PUBMED_FETCH_URL, MAX_RESULTS
 
@@ -110,6 +111,18 @@ def main():
 
     args = parser.parse_args()
 
+    filename = args.file if args.file else f"papers_{args.query.replace(' ', '_')}.csv"
+
+    # Check if the file exists
+    if os.path.exists(filename):
+        print(f"⚠️ The file '{filename}' already exists.")
+        user_choice = input("Do you want to overwrite it? (y/n): ").strip().lower()
+
+        if user_choice != "y":
+            filename = input("Enter a new filename (including .csv extension): ").strip()
+            if not filename.endswith(".csv"):
+                filename += ".csv"
+
     if args.debug:
         print(f"Running with query: {args.query}")
         if args.file:
@@ -126,12 +139,8 @@ def main():
         if extracted_info:
             papers.append(extracted_info)
     if papers:
-        if args.file:
-            save_to_csv(papers, args.file)
-        else:
-            default_filename = f"papers_{args.query.replace(' ', '_')}.csv"
-            print(f"📂 No filename provided. Saving results as: {default_filename}")
-            save_to_csv(papers, default_filename)
+        print(f"📂 Saving results as: {filename}")
+        save_to_csv(papers, filename)
     else:
         print("No relevant papers found.")
 
